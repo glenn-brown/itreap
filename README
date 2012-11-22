@@ -1,0 +1,50 @@
+PACKAGE
+
+package itreap
+    import "github.com/glenn-brown/itreap"
+
+    Package itreap implements an immutable ordered list. Because the list is
+    immutable, the Insert() and Remove() operations do not modify the
+    original list, but return a new list with the node inserted or removed
+    in O(log(N)) time where N is the number of nodes in the tree.
+
+TYPES
+
+type T struct {
+    // contains filtered or unexported fields
+}
+    Type T is an immutable ordered list.
+
+func New() *T
+    Return nil, the empty immutable list.
+
+func (a *T) Contains(value interface{}) bool
+    Contains returns true iff the tree contains the specified value, in
+    O(log(N)) time.
+
+func (t *T) GetN(n int) (value interface{})
+    Return the value at position n in the list. The index n must be in the
+    interval [0,t.Len()).
+
+func (t *T) Insert(value interface{}) *T
+    Insert returns a new tree like the original, but with the value
+    inserted, in O(log(N)) time.
+
+func (t *T) Len() int
+    Len returns the number of values in the list.
+
+func (t *T) Remove(value interface{}) *T
+    Remove returns a new treap like the original, but with the value
+    removed, in O(log(N)) time. If there is no matching value to remove, the
+    original tree is returned. If there are multiple matching values, only
+    one is removed.
+
+func (t *T) RemoveN(n int) (nu *T, val interface{})
+    RemoveN removes the nth element from the list, returning the modified
+    list and removed value. Use t.RemoveN(0) to pop the first (least) value
+    and t.RemoveN(t.Len()-1) to remove the last (greatest).
+
+func (t *T) String() string
+    Return a string representation of the immutable treap.
+
+
