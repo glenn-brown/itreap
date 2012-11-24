@@ -6,6 +6,10 @@
 // inserted or removed in O(log(N)) time where N is the
 // number of nodes in the tree.
 //
+// Any itreap can hold the Go builtin types *int*, float*, []byte, and
+// string, plus any data type that implements the Fast or Slow
+// interface, as well as
+//
 package itreap
 
 //
@@ -19,6 +23,24 @@ import (
 	"github.com/glenn-brown/ordinal"
 	"math/rand"
 )
+
+// An itreap can hold any type that implements the Slow interface, but
+// the Fast interface is faster.  Method Less(b) must return true iff
+// the value of the receiver is less than b.
+type Slow interface {
+	Less(interface{}) bool
+}
+
+// An itreap can hold any type that implements the Fsst interface, but
+// the Slow interface is simpler.  Method Less(b) must return true iff
+// the value of the receiver is less than b.  Method Score() must
+// return monotonically increasing values as the value of the receiver
+// increases.
+
+type Fast interface {
+	Less(interface{}) bool
+	Score(interface{}) float64
+}
 
 // Type T is an immutable ordered list.
 //
@@ -266,6 +288,15 @@ func (t *T) GetN(n int) (value interface{}) {
 		return t.right.GetN(n - lcount - 1)
 	}
 	return t.value
+}
+
+func (t *T) Print() {
+	if nil == t {
+		return
+	}
+	t.left.Print()
+	fmt.Print("%v ", t.value)
+	t.right.Print()
 }
 
 // Return a string representation of the immutable treap.
