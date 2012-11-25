@@ -8,7 +8,23 @@ package itreap
     original list, but return a new list with the node inserted or removed
     in O(log(N)) time where N is the number of nodes in the tree.
 
+    Any itreap can hold the Go builtin types *int*, float*, []byte, and
+    string, plus any data type that implements the Fast or Slow interface,
+    as well as
+
 TYPES
+
+type Fast interface {
+    Less(interface{}) bool
+    Score(interface{}) float64
+}
+
+type Slow interface {
+    Less(interface{}) bool
+}
+    An itreap can hold any type that implements the Slow interface, but the
+    Fast interface is faster. Method Less(b) must return true iff the value
+    of the receiver is less than b.
 
 type T struct {
     // contains filtered or unexported fields
@@ -32,6 +48,8 @@ func (t *T) Insert(value interface{}) *T
 
 func (t *T) Len() int
     Len returns the number of values in the list.
+
+func (t *T) Print()
 
 func (t *T) Remove(value interface{}) *T
     Remove returns a new treap like the original, but with the value
